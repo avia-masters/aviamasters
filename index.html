@@ -21,7 +21,7 @@ color:white;
 overflow-x:hidden;
 }
 
-/* PARTICLES */
+/* ⭐ STARS */
 #particles{
 position:fixed;
 width:100%;
@@ -105,7 +105,7 @@ color:#38bdf8;
 margin-bottom:10px;
 }
 
-/* FALLING X */
+/* 📉 FALLING X */
 .mult{
 position:fixed;
 top:-60px;
@@ -122,13 +122,13 @@ z-index:1;
 100%{transform:translateY(120vh);opacity:0;}
 }
 
-/* ROCKET */
+/* 🚀 ROCKET */
 .rocket{
 display:inline-block;
 transition:transform 0.2s linear;
 }
 
-/* BOTTOM BUTTON */
+/* 🔘 BUTTON BOTTOM */
 .bottom-telegram{
 text-align:center;
 margin:50px 0;
@@ -146,7 +146,6 @@ box-shadow:0 10px 30px rgba(0,114,255,.4);
 transition:.3s;
 position:relative;
 z-index:5;
-pointer-events:auto;
 }
 
 .bottom-telegram a:hover{
@@ -162,7 +161,7 @@ position:relative;
 z-index:2;
 }
 
-/* 📱 MOBILE FIX */
+/* 📱 MOBILE */
 @media (max-width:768px){
 
 h1{
@@ -186,13 +185,6 @@ grid-template-columns:1fr;
 .btn{
 display:block;
 margin:10px auto;
-text-align:center;
-}
-
-/* ракеты не падают вниз */
-.rocket{
-display:inline-block;
-transform-origin:center;
 }
 }
 </style>
@@ -200,8 +192,10 @@ transform-origin:center;
 
 <body>
 
+<!-- ⭐ STARS -->
 <div id="particles"></div>
 
+<!-- HERO -->
 <section class="hero">
 
 <div>
@@ -220,13 +214,15 @@ transform-origin:center;
 
 </section>
 
+<!-- GAME -->
 <section class="section">
 <h2 style="text-align:center;margin-bottom:40px;">Как устроена игра?</h2>
 
 <div class="cards">
+
 <div class="card">
 <h3>✈️ Взлёт</h3>
-<p>После начала раунда самолёт начинает набирать высоту, а коэффициент увеличивается.</p>
+<p>После начала раунда самолёт набирает высоту и коэффициент растёт.</p>
 </div>
 
 <div class="card">
@@ -236,27 +232,42 @@ transform-origin:center;
 
 <div class="card">
 <h3>🎯 Решение игрока</h3>
-<p>Игрок сам решает, когда выйти из раунда.</p>
+<p>Игрок сам решает, когда остановиться.</p>
 </div>
+
 </div>
 </section>
 
+<!-- REVIEWS -->
 <section class="section">
 <h2 style="text-align:center;margin-bottom:40px;">Отзывы</h2>
 
 <div class="cards">
+
 <div class="card">
 <h3>🇷🇺 Русский отзыв</h3>
-<p>“Отличное сообщество и быстрые обновления.”</p>
+<p>“Очень активное сообщество и полезные советы.”</p>
+</div>
+
+<div class="card">
+<h3>🇷🇺 Русский отзыв</h3>
+<p>“Быстро начал понимать игру благодаря каналу.”</p>
 </div>
 
 <div class="card">
 <h3>🇬🇧 English review</h3>
-<p>“One of the best Aviamasters communities.”</p>
+<p>“Great Aviamasters community.”</p>
 </div>
+
+<div class="card">
+<h3>🇬🇧 English review</h3>
+<p>“Best place for updates.”</p>
+</div>
+
 </div>
 </section>
 
+<!-- BOTTOM BUTTON -->
 <div class="bottom-telegram">
 <a href="https://t.me/GLOBAL_JET" target="_blank">
 Открыть Telegram
@@ -267,6 +278,71 @@ transform-origin:center;
 © 2026 AVIAMASTERS COMMUNITY
 </div>
 
+<!-- ⭐ STARS SCRIPT -->
+<script>
+const canvas = document.createElement("canvas");
+document.getElementById("particles").appendChild(canvas);
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let particles = [];
+
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2.5,
+d:Math.random()*1
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="white";
+
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+
+p.y += p.d;
+
+if(p.y > canvas.height){
+p.y = 0;
+p.x = Math.random()*canvas.width;
+}
+});
+
+requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+<!-- 📉 X FALL -->
+<script>
+const values=["x1.2","x2","x3","x5","x10","x25","x50","x100","x250"];
+
+function createMult(){
+const el=document.createElement("div");
+el.className="mult";
+
+el.innerText=values[Math.floor(Math.random()*values.length)];
+
+el.style.left=Math.random()*100+"vw";
+el.style.fontSize=(14+Math.random()*26)+"px";
+el.style.animationDuration=(5+Math.random()*8)+"s";
+
+document.body.appendChild(el);
+
+setTimeout(()=>el.remove(),12000);
+}
+
+setInterval(createMult,250);
+</script>
+
+<!-- 🚀 ROCKET -->
 <script>
 window.addEventListener("scroll", () => {
 const scroll = window.scrollY;
