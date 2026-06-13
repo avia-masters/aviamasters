@@ -127,22 +127,13 @@ z-index:1;
 100%{transform:translateY(120vh);opacity:0;}
 }
 
-/* ROCKETS INSIDE TITLE */
+/* ROCKET */
 .rocket{
 display:inline-block;
 transition:transform 0.2s linear;
 }
 
-/* FOOTER */
-.footer{
-text-align:center;
-padding:30px;
-color:#94a3b8;
-position:relative;
-z-index:2;
-}
-
-/* BOTTOM BUTTON */
+/* FOOTER BUTTON */
 .bottom-telegram{
 text-align:center;
 margin:50px 0;
@@ -162,6 +153,44 @@ transition:.3s;
 
 .bottom-telegram a:hover{
 transform:scale(1.05);
+}
+
+/* FOOTER */
+.footer{
+text-align:center;
+padding:30px;
+color:#94a3b8;
+position:relative;
+z-index:2;
+}
+
+/* 📱 MOBILE ADAPTATION */
+@media (max-width:768px){
+
+h1{
+font-size:38px;
+text-align:center;
+}
+
+.subtitle{
+font-size:16px;
+text-align:center;
+padding:0 10px;
+}
+
+.cards{
+grid-template-columns:1fr;
+}
+
+.btn{
+display:block;
+margin:10px auto;
+text-align:center;
+}
+
+.section{
+padding:50px 15px;
+}
 }
 </style>
 </head>
@@ -316,13 +345,12 @@ setTimeout(()=>el.remove(),12000);
 setInterval(createMult,250);
 </script>
 
-<!-- ROCKET SCRIPT (FIXED) -->
+<!-- ROCKET ANIMATION -->
 <script>
 window.addEventListener("scroll", () => {
 const scroll = window.scrollY;
 
 document.querySelectorAll("#title .rocket").forEach((r, i) => {
-
 const dir = i === 0 ? -1 : 1;
 
 const x = dir * scroll * 0.6;
