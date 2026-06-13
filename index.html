@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AVIAMASTERS Community</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap" rel="stylesheet">
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Montserrat',sans-serif;
+}
+
+body{
+background: radial-gradient(circle at top,#0f172a,#020617);
+color:white;
+overflow-x:hidden;
+}
+
+/* PARTICLES */
+#particles{
+position:fixed;
+width:100%;
+height:100%;
+z-index:0;
+}
+
+/* HERO */
+.hero{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+position:relative;
+padding:140px 20px 40px;
+z-index:2;
+overflow:hidden;
+}
+
+h1{
+font-size:64px;
+font-weight:800;
+margin-bottom:15px;
+position:relative;
+z-index:3;
+}
+
+.subtitle{
+font-size:20px;
+color:#cbd5e1;
+margin-bottom:30px;
+position:relative;
+z-index:3;
+}
+
+/* BUTTON */
+.btn{
+display:inline-block;
+padding:16px 40px;
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+border-radius:50px;
+color:white;
+text-decoration:none;
+font-weight:700;
+transition:.3s;
+box-shadow:0 10px 30px rgba(0,114,255,.4);
+position:relative;
+z-index:3;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* SECTIONS */
+.section{
+padding:80px 20px;
+max-width:1100px;
+margin:auto;
+position:relative;
+z-index:2;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.1);
+padding:25px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+transition:.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.card h3{
+color:#38bdf8;
+margin-bottom:10px;
+}
+
+/* FALLING X */
+.mult{
+position:fixed;
+top:-60px;
+font-weight:800;
+color:rgba(255,255,255,0.15);
+animation:fall linear infinite;
+pointer-events:none;
+z-index:1;
+}
+
+@keyframes fall{
+0%{transform:translateY(0);opacity:0;}
+10%{opacity:1;}
+100%{transform:translateY(120vh);opacity:0;}
+}
+
+/* ROCKETS INSIDE TITLE */
+.rocket{
+display:inline-block;
+transition:transform 0.2s linear;
+}
+
+/* FOOTER */
+.footer{
+text-align:center;
+padding:30px;
+color:#94a3b8;
+position:relative;
+z-index:2;
+}
+
+/* BOTTOM BUTTON */
+.bottom-telegram{
+text-align:center;
+margin:50px 0;
+}
+
+.bottom-telegram a{
+display:inline-block;
+padding:18px 45px;
+background:linear-gradient(45deg,#00c6ff,#0072ff);
+color:white;
+text-decoration:none;
+font-weight:700;
+border-radius:50px;
+box-shadow:0 10px 30px rgba(0,114,255,.4);
+transition:.3s;
+}
+
+.bottom-telegram a:hover{
+transform:scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<!-- HERO -->
+<section class="hero">
+
+<div>
+<h1 id="title"><span class="rocket">🚀</span>AVIAMASTERS<span class="rocket">🚀</span></h1>
+
+<p class="subtitle">
+Лучшее сообщество по Aviamasters<br>
+Новости • Стратегии • Общение
+</p>
+
+<a class="btn" href="https://t.me/GLOBAL_JET" target="_blank">
+Перейти в Telegram
+</a>
+
+</div>
+
+</section>
+
+<!-- GAME -->
+<section class="section">
+<h2 style="text-align:center;margin-bottom:40px;">Как устроена игра?</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>✈️ Взлёт</h3>
+<p>После начала раунда самолёт начинает набирать высоту, а коэффициент увеличивается.</p>
+</div>
+
+<div class="card">
+<h3>📈 Рост коэффициента</h3>
+<p>Чем дольше продолжается полёт, тем выше становится текущий коэффициент.</p>
+</div>
+
+<div class="card">
+<h3>🎯 Решение игрока</h3>
+<p>Игрок самостоятельно решает, когда завершить раунд и зафиксировать результат.</p>
+</div>
+
+</div>
+</section>
+
+<!-- REVIEWS -->
+<section class="section">
+<h2 style="text-align:center;margin-bottom:40px;">Отзывы</h2>
+
+<div class="cards">
+
+<div class="card">
+<h3>🇷🇺 Русский отзыв</h3>
+<p>“Очень активное сообщество, всегда есть свежие новости и полезные советы.”</p>
+</div>
+
+<div class="card">
+<h3>🇷🇺 Русский отзыв</h3>
+<p>“Благодаря этому каналу стал лучше понимать игру.”</p>
+</div>
+
+<div class="card">
+<h3>🇬🇧 English review</h3>
+<p>“Great Aviamasters community with fast updates and active users.”</p>
+</div>
+
+<div class="card">
+<h3>🇬🇧 English review</h3>
+<p>“One of the best places to follow Aviamasters news.”</p>
+</div>
+
+</div>
+</section>
+
+<!-- BOTTOM BUTTON -->
+<div class="bottom-telegram">
+<a href="https://t.me/GLOBAL_JET" target="_blank">
+Открыть Telegram
+</a>
+</div>
+
+<div class="footer">
+© 2026 AVIAMASTERS COMMUNITY
+</div>
+
+<!-- PARTICLES -->
+<script>
+const canvas=document.createElement("canvas");
+document.getElementById("particles").appendChild(canvas);
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+for(let i=0;i<80;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*2.5,
+d:Math.random()*1
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="white";
+
+particles.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fill();
+p.y+=p.d;
+
+if(p.y>canvas.height){
+p.y=0;
+p.x=Math.random()*canvas.width;
+}
+});
+
+requestAnimationFrame(draw);
+}
+draw();
+</script>
+
+<!-- FALLING X -->
+<script>
+const values=["x1.2","x2","x3","x5","x10","x25","x50","x100","x250"];
+
+function createMult(){
+const el=document.createElement("div");
+el.className="mult";
+
+el.innerText=values[Math.floor(Math.random()*values.length)];
+
+el.style.left=Math.random()*100+"vw";
+el.style.fontSize=(14+Math.random()*26)+"px";
+el.style.animationDuration=(5+Math.random()*8)+"s";
+
+document.body.appendChild(el);
+
+setTimeout(()=>el.remove(),12000);
+}
+
+setInterval(createMult,250);
+</script>
+
+<!-- ROCKET SCRIPT (FIXED) -->
+<script>
+window.addEventListener("scroll", () => {
+const scroll = window.scrollY;
+
+document.querySelectorAll("#title .rocket").forEach((r, i) => {
+
+const dir = i === 0 ? -1 : 1;
+
+const x = dir * scroll * 0.6;
+const y = -scroll * 0.3;
+
+r.style.transform = `translate(${x}px, ${y}px) rotate(${scroll * 0.2}deg)`;
+});
+});
+</script>
+
+</body>
+</html>
