@@ -71,8 +71,24 @@ balance;
         multiplier.toFixed(2)+"x";
 
 
-        plane.style.bottom =
-        (40 + multiplier * 25)+"px";
+       let height =
+40 + multiplier * 28;
+
+
+let position =
+60 + multiplier * 12;
+
+
+plane.style.bottom =
+height+"px";
+
+
+plane.style.left =
+position+"px";
+
+
+plane.style.transform =
+"rotate(-15deg)";
 
 
 
