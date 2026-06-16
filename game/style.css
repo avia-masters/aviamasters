@@ -647,3 +647,14 @@ bottom:240px;
 left:300px;
 bottom:320px;
 }
+.game-area{
+
+position:relative;
+
+width:100%;
+
+height:450px;
+
+overflow:hidden;
+
+}
