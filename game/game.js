@@ -1,3 +1,10 @@
+let balance = 1000;
+
+const balanceText =
+document.getElementById("balance");
+
+const betInput =
+document.getElementById("bet");
 let multiplier = 1;
 let running = false;
 let timer;
