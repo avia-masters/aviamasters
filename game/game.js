@@ -9,6 +9,9 @@ let multiplier = 1;
 let running = false;
 let timer;
 let crashPoint;
+const line = document.getElementById("line");
+
+let points = "0,300";
 let history = [];
 
 const historyBox =
