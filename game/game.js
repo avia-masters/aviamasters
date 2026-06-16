@@ -45,19 +45,29 @@ start.onclick = function(){
 
 
 
-        if(multiplier >= crashPoint){
+       if(multiplier >= crashPoint){
 
 
-            clearInterval(timer);
+clearInterval(timer);
 
-            running = false;
-
-
-            message.innerHTML =
-            "💥 Самолёт потерян";
+running = false;
 
 
-        }
+plane.classList.add("crash");
+
+
+message.innerHTML =
+"💥 Самолёт потерян";
+
+
+setTimeout(()=>{
+
+plane.classList.remove("crash");
+
+},1000);
+
+
+}
 
 
     },200);
