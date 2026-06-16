@@ -129,6 +129,15 @@ take.onclick = function(){
    message.innerHTML =
 "✅ Забрали "+
 multiplier.toFixed(2)+"x";
+    let win =
+bet * multiplier;
+
+
+balance += win;
+
+
+balanceText.innerHTML =
+balance.toFixed(0);
 
 
 addHistory(
