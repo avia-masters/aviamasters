@@ -131,11 +131,20 @@ bottom:40px;
 
 width:90px;
 
-transition:.2s;
+z-index:5;
+
+transition:
+
+left .2s linear,
+
+bottom .2s linear;
+
 
 filter:
 
-drop-shadow(0 0 20px #00ffff);
+drop-shadow(
+0 0 20px #ffffff
+);
 
 }
 
