@@ -32,6 +32,26 @@ start.onclick = function(){
     running = true;
 
     multiplier = 1;
+    let bet =
+Number(betInput.value);
+
+
+if(bet > balance){
+
+message.innerHTML =
+"❌ Недостаточно средств";
+
+running=false;
+
+return;
+
+}
+
+
+balance -= bet;
+
+balanceText.innerHTML =
+balance;
 
 
     crashPoint =
