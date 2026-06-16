@@ -9,15 +9,12 @@
 
 <rect width="512" height="512" rx="120" fill="url(#g)"/>
 
-<!-- крылья -->
 <path d="M80 300 L220 250 L256 150 L292 250 L432 300 L300 320 L270 410 L242 410 L212 320 Z"
 fill="#ffffff"/>
 
-<!-- корпус самолёта -->
 <path d="M256 90 L285 250 L256 390 L227 250 Z"
 fill="#DCEBFF"/>
 
-<!-- линии скорости -->
 <path d="M110 380 Q256 450 402 380"
 stroke="#fff"
 stroke-width="18"
@@ -25,7 +22,6 @@ fill="none"
 opacity="0.35"
 stroke-linecap="round"/>
 
-<!-- AM -->
 <text x="256" y="475"
 font-size="70"
 font-family="Arial"
