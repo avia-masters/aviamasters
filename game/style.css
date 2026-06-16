@@ -536,23 +536,6 @@ box-shadow:
 
 }
 
-.route{
-
-position:absolute;
-
-left:0;
-
-top:0;
-
-width:100%;
-
-height:100%;
-
-z-index:2;
-
-}
-
-
 .point{
 
 position:absolute;
@@ -606,15 +589,6 @@ left:330px;
 bottom:340px;
 
 }
-.route{
-position:absolute;
-left:0;
-top:0;
-width:100%;
-height:100%;
-z-index:10;
-}
-
 
 .point{
 position:absolute;
@@ -657,4 +631,49 @@ height:450px;
 
 overflow:hidden;
 
+}
+.game-area{
+    position:relative;
+    width:100%;
+    max-width:700px;
+    height:450px;
+    overflow:hidden;
+    margin:auto;
+}
+
+
+.route{
+    position:absolute;
+    inset:0;
+    z-index:5;
+}
+
+
+.point{
+    position:absolute;
+    color:white;
+    background:rgba(0,0,0,.5);
+    padding:6px 12px;
+    border-radius:20px;
+}
+
+
+.p1{
+    left:70px;
+    bottom:70px;
+}
+
+.p2{
+    left:170px;
+    bottom:160px;
+}
+
+.p3{
+    left:270px;
+    bottom:250px;
+}
+
+.p4{
+    left:370px;
+    bottom:330px;
 }
