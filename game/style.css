@@ -244,4 +244,41 @@ margin-top:20px;
 
 font-size:22px;
 
+    .crash{
+
+animation:crash 1s forwards;
+
+}
+
+
+@keyframes crash{
+
+
+0%{
+
+transform:rotate(0deg);
+
+}
+
+
+50%{
+
+transform:rotate(45deg);
+
+}
+
+
+100%{
+
+transform:
+
+translateY(200px)
+rotate(90deg);
+
+opacity:0;
+
+}
+
+
+}
 }
