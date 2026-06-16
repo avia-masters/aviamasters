@@ -116,17 +116,24 @@ transform:translateX(80px);
 
 position:absolute;
 
-left:70px;
+left:60px;
 
 bottom:40px;
 
-font-size:70px;
+width:90px;
+
+transition:.2s;
 
 filter:
 
-drop-shadow(0 0 15px #fff);
+drop-shadow(0 0 20px #00ffff);
 
-transition:.2s;
+}
+
+
+#plane img{
+
+width:100%;
 
 }
 
