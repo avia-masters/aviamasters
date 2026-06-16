@@ -48,16 +48,16 @@ h1{
 
 .sky{
 
-height:450px;
-
 position:relative;
 
 overflow:hidden;
 
-border-radius:30px;
 
+height:450px;
 
-background:
+background: ...;
+
+}
 
 linear-gradient(
 180deg,
