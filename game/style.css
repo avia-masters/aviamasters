@@ -48,21 +48,30 @@ h1{
 
 .sky{
 
-    height:450px;
+height:450px;
 
-    position:relative;
+position:relative;
 
-    overflow:hidden;
+overflow:hidden;
 
-    border-radius:30px;
+border-radius:30px;
 
 
-    background:
+background:
 
-    linear-gradient(
-    #39c6ff,
-    #06315a
-    );
+linear-gradient(
+180deg,
+#38c8ff 0%,
+#79e8ff 45%,
+#0b4d8a 100%
+);
+
+
+box-shadow:
+
+0 0 40px #00eaff;
+
+}
 
 
     box-shadow:
@@ -460,5 +469,60 @@ pointer-events:none;
 filter:
 
 drop-shadow(0 0 10px #00ffcc);
+
+}
+
+/* солнце */
+
+.sky::before{
+
+content:"☀️";
+
+position:absolute;
+
+top:25px;
+
+right:35px;
+
+font-size:70px;
+
+filter:
+drop-shadow(0 0 20px #fff);
+
+}
+
+
+/* остров */
+
+.sky::after{
+
+content:"";
+
+position:absolute;
+
+bottom:-60px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+width:320px;
+
+height:130px;
+
+background:
+
+radial-gradient(
+circle,
+#1bff75,
+#006b32
+);
+
+
+border-radius:50%;
+
+box-shadow:
+
+0 -10px 30px #00ff88;
 
 }
