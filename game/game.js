@@ -2,6 +2,10 @@ let multiplier = 1;
 let running = false;
 let timer;
 let crashPoint;
+let history = [];
+
+const historyBox =
+document.getElementById("history");
 
 
 const plane = document.getElementById("plane");
@@ -60,6 +64,12 @@ message.innerHTML =
 "💥 Самолёт потерян";
 
 
+addHistory(
+multiplier.toFixed(2),
+false
+);
+
+
 setTimeout(()=>{
 
 plane.classList.remove("crash");
@@ -89,9 +99,55 @@ take.onclick = function(){
     running=false;
 
 
-    message.innerHTML =
-    "✅ Забрали "+
-    multiplier.toFixed(2)+"x";
+   message.innerHTML =
+"✅ Забрали "+
+multiplier.toFixed(2)+"x";
+
+
+addHistory(
+multiplier.toFixed(2),
+true
+);
 
 
 };
+
+function addHistory(value, good){
+
+
+history.unshift(value);
+
+
+if(history.length > 6){
+
+history.pop();
+
+}
+
+
+historyBox.innerHTML="";
+
+
+history.forEach(item=>{
+
+
+let div =
+document.createElement("div");
+
+
+div.className =
+"result " +
+(good ? "good":"bad");
+
+
+div.innerHTML =
+item+"x";
+
+
+historyBox.appendChild(div);
+
+
+});
+
+
+}
