@@ -648,3 +648,31 @@ opacity:.6;
 }
 
 }
+
+.point{
+    position:absolute !important;
+}
+
+
+.p1{
+    left:50px !important;
+    bottom:70px !important;
+}
+
+
+.p2{
+    left:130px !important;
+    bottom:150px !important;
+}
+
+
+.p3{
+    left:210px !important;
+    bottom:240px !important;
+}
+
+
+.p4{
+    left:290px !important;
+    bottom:330px !important;
+}
