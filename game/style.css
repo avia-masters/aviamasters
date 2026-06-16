@@ -118,9 +118,6 @@ transform:translateX(80px);
 
 }
 
-
-
-
 #plane{
 
 position:absolute;
@@ -155,9 +152,6 @@ width:100%;
 
 }
 
-
-
-
 #multiplier{
 
 position:absolute;
@@ -176,10 +170,6 @@ text-shadow:
 0 0 20px #00ffea;
 
 }
-
-
-
-
 
 .panel{
 
@@ -209,8 +199,6 @@ font-size:22px;
 font-weight:bold;
 
 }
-
-
 
 button{
 
