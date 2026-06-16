@@ -35,6 +35,12 @@ start.onclick = function(){
     running = true;
 
     multiplier = 1;
+    points = "0,300";
+
+line.setAttribute(
+"points",
+points
+);
     let bet =
 Number(betInput.value);
 
