@@ -64,8 +64,7 @@ document.getElementById("history");
 for(let i=0;i<10;i++){
 
 let ix=300+i*260;
-
-let iy=500-i*45;
+let iy=canvas.height-80-i*35;
 
 
 islands.push({
