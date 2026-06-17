@@ -126,19 +126,17 @@ multiplier += 0.02;
 
 
 
-ctx.fillStyle="white";
+if(planeImg.complete){
 
-ctx.beginPath();
-
-ctx.arc(
-x,
-y,
-15,
-0,
-Math.PI*2
+ctx.drawImage(
+planeImg,
+x-35,
+y-35,
+70,
+70
 );
 
-ctx.fill();
+}
 
 
 
