@@ -95,7 +95,16 @@ ctx.fillRect(
 canvas.width,
 canvas.height
 );
+// вода
 
+ctx.fillStyle="#0865a8";
+
+ctx.fillRect(
+0,
+canvas.height-120,
+canvas.width,
+120
+);
 
 
 // остров
