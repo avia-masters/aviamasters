@@ -100,21 +100,6 @@ canvas.height
 
 // остров
 
-ctx.fillStyle="#00e878";
-
-ctx.beginPath();
-
-ctx.arc(
-200,
-canvas.height-50,
-80,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
-
 
 // самолёт
 
