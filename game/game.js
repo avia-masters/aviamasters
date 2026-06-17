@@ -459,7 +459,7 @@ plane.x =
 plane.y =
 canvas.height
 -120
--Math.pow(t,1.7)*420;
+-Math.pow(t,1.45)*300;
 
 
 
