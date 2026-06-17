@@ -640,6 +640,8 @@ drawIslands();
 
 drawPoints();
 
+drawPath();
+
 drawSmoke();
 
 drawPlane();
