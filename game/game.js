@@ -41,6 +41,8 @@ let crash=false;
 
 let planeImg=new Image();
 planeImg.src="plane.svg";
+let carrierImg=new Image();
+carrierImg.src="carrier.svg";
 
 
 
