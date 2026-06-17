@@ -372,6 +372,54 @@ Math.PI*2
 
 ctx.fill();
 
+// свечение острова
+
+ctx.shadowColor="#00ff88";
+
+ctx.shadowBlur=25;
+
+ctx.fill();
+
+ctx.shadowBlur=0;
+
+
+// пальма
+
+ctx.strokeStyle="#5d3b1f";
+
+ctx.lineWidth=5;
+
+ctx.beginPath();
+
+ctx.moveTo(
+ix,
+i.y-10
+);
+
+ctx.lineTo(
+ix,
+i.y-70
+);
+
+ctx.stroke();
+
+
+// листья
+
+ctx.fillStyle="#00aa55";
+
+ctx.beginPath();
+
+ctx.arc(
+ix,
+i.y-80,
+25,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
 
 
 });
