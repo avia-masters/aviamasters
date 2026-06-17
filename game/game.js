@@ -209,20 +209,17 @@ function createRockets(){
 
 let arr=[];
 
-
-for(let i=0;i<4;i++){
+for(let i=0;i<5;i++){
 
 arr.push({
 
-x:
-400+i*180,
+x:300+i*170,
 
-y:
-canvas.height-220,
+y:canvas.height-250-i*60,
 
 radius:18,
 
-hit:false
+speed:1+Math.random()*1.5
 
 });
 
@@ -231,9 +228,6 @@ hit:false
 return arr;
 
 }
-
-
-
 function drawRockets(){
 
 rockets.forEach(r=>{
