@@ -668,8 +668,8 @@ plane.x += 2.2;
 
 plane.y =
 canvas.height
--180
--Math.pow(multiplier,1.35)*18;
+-230
+-Math.pow(multiplier,1.35)*22;
 
 multiplier+=0.01;
 path.push({
