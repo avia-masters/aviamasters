@@ -32,7 +32,7 @@ let islands=[];
 let points=[];
 
 let smoke=[];
-
+let path=[];
 let history=[];
 
 let crash=false;
