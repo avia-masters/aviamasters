@@ -260,14 +260,65 @@ canvas.height
 
 // море
 
-ctx.fillStyle="#004b75";
+let water =
+ctx.createLinearGradient(
+0,
+canvas.height-220,
+0,
+canvas.height
+);
+
+
+water.addColorStop(
+0,
+"#006fa6"
+);
+
+water.addColorStop(
+1,
+"#001d36"
+);
+
+
+ctx.fillStyle=water;
+
 
 ctx.fillRect(
 0,
-canvas.height-180,
+canvas.height-220,
 canvas.width,
-180
+220
 );
+
+
+
+// волны
+
+ctx.strokeStyle=
+"rgba(255,255,255,.25)";
+
+ctx.lineWidth=2;
+
+
+for(let i=0;i<8;i++){
+
+ctx.beginPath();
+
+ctx.moveTo(
+0,
+canvas.height-200+i*25
+);
+
+
+ctx.lineTo(
+canvas.width,
+canvas.height-200+i*25
+);
+
+
+ctx.stroke();
+
+}
 
 
 
