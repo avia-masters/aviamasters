@@ -1,171 +1,42 @@
-* {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: radial-gradient(circle at top, #007bff, #020817 70%);
-    font-family: Arial, sans-serif;
-    color: white;
     overflow: hidden;
+    font-family: Arial;
 }
 
-.game {
-    width: 100vw;
-    height: 100vh;
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+canvas {
+    display: block;
 }
 
-h1 {
-    font-size: 24px;
-    text-shadow: 0 0 15px #00eaff;
-}
-
-.game-area {
-    position: relative;
-    width: 100%;
-    height: 450px;
-    overflow: hidden;
-}
-
-#flightPath {
+/* UI поверх игры */
+.ui {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-}
-
-#plane {
-    position: absolute;
-    left: 60px;
-    bottom: 40px;
-    width: 80px;
-    z-index: 5;
-    transition: left 0.1s linear, bottom 0.1s linear;
-    filter: drop-shadow(0 0 10px white);
-}
-
-#plane img {
-    width: 100%;
-}
-
-#multiplier {
-    position: absolute;
-    top: 40px;
-    width: 100%;
-    text-align: center;
-    font-size: 60px;
-    font-weight: bold;
-    text-shadow: 0 0 20px #00ffea;
-}
-
-.route {
-    position: absolute;
-    inset: 0;
-}
-
-.point {
-    position: absolute;
-    padding: 6px 10px;
-    border-radius: 15px;
-    background: rgba(0,0,0,0.5);
-    font-size: 14px;
-}
-
-.p1 { left: 60px; bottom: 80px; }
-.p2 { left: 160px; bottom: 160px; }
-.p3 { left: 260px; bottom: 240px; }
-.p4 { left: 360px; bottom: 320px; }
-
-.panel {
-    margin-top: 10px;
-    width: 100%;
-    background: rgba(0,0,0,0.35);
+    top: 20px;
+    left: 20px;
+    background: rgba(0,0,0,0.4);
     padding: 15px;
-    border-radius: 20px;
+    border-radius: 12px;
+    color: white;
     backdrop-filter: blur(10px);
 }
 
-.stats {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
-#balance {
-    color: #00ff99;
-    font-weight: bold;
-}
-
-input {
-    width: 90px;
-    padding: 8px;
-    border-radius: 10px;
-    border: none;
-    text-align: center;
-}
-
 button {
-    width: 48%;
-    padding: 12px;
     margin-top: 10px;
+    padding: 10px;
     border: none;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
 }
 
 #start {
     background: #00ff88;
-    box-shadow: 0 0 15px #00ff88;
 }
 
-#take {
+#cash {
     background: #ffd000;
-    box-shadow: 0 0 15px #ffd000;
 }
 
-#message {
+#mult {
     margin-top: 10px;
-    font-size: 18px;
-    text-align: center;
-}
-
-#history {
-    margin-top: 10px;
-    display: flex;
-    gap: 6px;
-    justify-content: center;
-    flex-wrap: wrap;
-}
-
-.result {
-    padding: 6px 10px;
-    border-radius: 10px;
-    background: #06172d;
+    font-size: 22px;
     font-weight: bold;
-}
-
-.good { color: #00ff88; }
-.bad { color: #ff3355; }
-
-.crash {
-    animation: crash 0.8s forwards;
-}
-
-@keyframes crash {
-    0% { transform: rotate(0); }
-    50% { transform: rotate(40deg); }
-    100% {
-        transform: translateY(200px) rotate(90deg);
-        opacity: 0;
-    }
 }
