@@ -1,109 +1,105 @@
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
 let balance = 1000;
+let bet = 0;
 
-let multiplier = 1;
 let running = false;
-let timer;
-let crashPoint;
-let currentBet = 0;
+let t = 0;
+let multiplier = 1;
+let crashPoint = 0;
 
-const balanceText = document.getElementById("balance");
-const betInput = document.getElementById("bet");
+document.getElementById("balance").innerText = balance;
 
-const plane = document.getElementById("plane");
-const multiplierText = document.getElementById("multiplier");
-
-const message = document.getElementById("message");
-
-const start = document.getElementById("start");
-const take = document.getElementById("take");
-
-const historyBox = document.getElementById("history");
-let history = [];
-
-start.onclick = function () {
+document.getElementById("start").onclick = () => {
     if (running) return;
 
-    currentBet = Number(betInput.value);
+    bet = Number(document.getElementById("bet").value);
+    if (bet <= 0 || bet > balance) return;
 
-    if (currentBet <= 0) {
-        message.innerHTML = "❌ Неверная ставка";
-        return;
-    }
-
-    if (currentBet > balance) {
-        message.innerHTML = "❌ Недостаточно средств";
-        return;
-    }
+    balance -= bet;
+    updateBalance();
 
     running = true;
+    t = 0;
     multiplier = 1;
-    message.innerHTML = "";
 
-    balance -= currentBet;
-    balanceText.innerHTML = balance;
-
-    crashPoint = (Math.random() * 6 + 1.2).toFixed(2);
-
-    plane.style.bottom = "40px";
-    plane.style.left = "60px";
-    plane.classList.remove("crash");
-
-    timer = setInterval(() => {
-        multiplier += 0.05;
-
-        multiplierText.innerHTML = multiplier.toFixed(2) + "x";
-
-        let bottom = 40 + multiplier * 25;
-        let left = 60 + multiplier * 18;
-
-        plane.style.bottom = bottom + "px";
-        plane.style.left = left + "px";
-
-        if (multiplier >= crashPoint) {
-            crash();
-        }
-
-    }, 100);
+    crashPoint = 1 + Math.random() * 5; // пока простой RNG
 };
 
-take.onclick = function () {
+document.getElementById("cash").onclick = () => {
     if (!running) return;
 
-    clearInterval(timer);
+    balance += bet * multiplier;
     running = false;
 
-    let win = currentBet * multiplier;
-    balance += win;
-
-    balanceText.innerHTML = balance.toFixed(0);
-
-    message.innerHTML = "✅ Забрали " + multiplier.toFixed(2) + "x";
-
-    addHistory(multiplier.toFixed(2), true);
+    updateBalance();
 };
 
-function crash() {
-    clearInterval(timer);
-    running = false;
-
-    plane.classList.add("crash");
-
-    message.innerHTML = "💥 Краш " + multiplier.toFixed(2) + "x";
-
-    addHistory(multiplier.toFixed(2), false);
+function updateBalance() {
+    document.getElementById("balance").innerText = balance.toFixed(0);
 }
 
-function addHistory(value, win) {
-    history.unshift({ value, win });
+function drawBackground() {
+    let g = ctx.createLinearGradient(0,0,0,canvas.height);
+    g.addColorStop(0, "#4bb3ff");
+    g.addColorStop(1, "#050b1e");
 
-    if (history.length > 6) history.pop();
-
-    historyBox.innerHTML = "";
-
-    history.forEach(item => {
-        let div = document.createElement("div");
-        div.className = "result " + (item.win ? "good" : "bad");
-        div.innerHTML = item.value + "x";
-        historyBox.appendChild(div);
-    });
+    ctx.fillStyle = g;
+    ctx.fillRect(0,0,canvas.width,canvas.height);
 }
+
+function drawIslands() {
+    ctx.fillStyle = "#1aff88";
+
+    for (let i = 0; i < 5; i++) {
+        let x = 200 + i * 250;
+        let y = canvas.height - 80;
+
+        ctx.beginPath();
+        ctx.arc(x, y, 60, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+function drawPlane(x, y) {
+    ctx.fillStyle = "white";
+
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, Math.PI * 2);
+    ctx.fill();
+}
+
+function loop() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+
+    drawBackground();
+    drawIslands();
+
+    if (running) {
+
+        t += 0.01;
+
+        multiplier += 0.02 + t * 0.01;
+
+        // ✈️ КРИВАЯ ПОЛЁТА (ВАЖНО — как в Aviamasters)
+        let x = 100 + t * 600;
+        let y = canvas.height - 100 - Math.pow(t, 1.7) * 400;
+
+        drawPlane(x, y);
+
+        document.getElementById("mult").innerText =
+            multiplier.toFixed(2) + "x";
+
+        if (multiplier >= crashPoint) {
+            running = false;
+        }
+    }
+
+    requestAnimationFrame(loop);
+}
+
+loop();
