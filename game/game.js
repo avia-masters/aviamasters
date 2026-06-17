@@ -1,214 +1,109 @@
 let balance = 1000;
 
-const balanceText =
-document.getElementById("balance");
-
-const betInput =
-document.getElementById("bet");
 let multiplier = 1;
 let running = false;
 let timer;
 let crashPoint;
-const line = document.getElementById("line");
+let currentBet = 0;
 
-let points = "0,300";
-let history = [];
-
-const historyBox =
-document.getElementById("history");
-
+const balanceText = document.getElementById("balance");
+const betInput = document.getElementById("bet");
 
 const plane = document.getElementById("plane");
 const multiplierText = document.getElementById("multiplier");
+
 const message = document.getElementById("message");
 
 const start = document.getElementById("start");
 const take = document.getElementById("take");
 
+const historyBox = document.getElementById("history");
+let history = [];
 
-start.onclick = function(){
+start.onclick = function () {
+    if (running) return;
 
+    currentBet = Number(betInput.value);
 
-    if(running) return;
+    if (currentBet <= 0) {
+        message.innerHTML = "❌ Неверная ставка";
+        return;
+    }
 
+    if (currentBet > balance) {
+        message.innerHTML = "❌ Недостаточно средств";
+        return;
+    }
 
     running = true;
-
     multiplier = 1;
-    points = "0,300";
-
-line.setAttribute(
-"points",
-points
-);
-    let bet =
-Number(betInput.value);
-
-
-if(bet > balance){
-
-message.innerHTML =
-"❌ Недостаточно средств";
-
-running=false;
-
-return;
-
-}
-
-
-balance -= bet;
-
-balanceText.innerHTML =
-balance;
-
-
-    crashPoint =
-    (Math.random() * 7 + 1).toFixed(2);
-
-
     message.innerHTML = "";
 
+    balance -= currentBet;
+    balanceText.innerHTML = balance;
 
-    timer = setInterval(function(){
+    crashPoint = (Math.random() * 6 + 1.2).toFixed(2);
 
+    plane.style.bottom = "40px";
+    plane.style.left = "60px";
+    plane.classList.remove("crash");
 
+    timer = setInterval(() => {
         multiplier += 0.05;
 
+        multiplierText.innerHTML = multiplier.toFixed(2) + "x";
 
-        multiplierText.innerHTML =
-        multiplier.toFixed(2)+"x";
+        let bottom = 40 + multiplier * 25;
+        let left = 60 + multiplier * 18;
 
+        plane.style.bottom = bottom + "px";
+        plane.style.left = left + "px";
 
-       let height =
-40 + multiplier * 28;
+        if (multiplier >= crashPoint) {
+            crash();
+        }
 
-
-let position =
-60 + multiplier * 12;
-
-
-plane.style.bottom =
-height+"px";
-
-
-plane.style.left =
-position+"px";
-
-
-plane.style.transform =
-"rotate(-15deg)";
-
-
-
-       if(multiplier >= crashPoint){
-
-
-clearInterval(timer);
-
-running = false;
-
-
-plane.classList.add("crash");
-
-
-message.innerHTML =
-"💥 Самолёт потерян";
-
-
-addHistory(
-multiplier.toFixed(2),
-false
-);
-
-
-setTimeout(()=>{
-
-plane.classList.remove("crash");
-
-},1000);
-
-
-}
-
-
-    },200);
-
-
+    }, 100);
 };
 
-
-
-
-take.onclick = function(){
-
-
-    if(!running) return;
-
+take.onclick = function () {
+    if (!running) return;
 
     clearInterval(timer);
+    running = false;
 
-    running=false;
+    let win = currentBet * multiplier;
+    balance += win;
 
+    balanceText.innerHTML = balance.toFixed(0);
 
-   message.innerHTML =
-"✅ Забрали "+
-multiplier.toFixed(2)+"x";
-    let win =
-bet * multiplier;
+    message.innerHTML = "✅ Забрали " + multiplier.toFixed(2) + "x";
 
-
-balance += win;
-
-
-balanceText.innerHTML =
-balance.toFixed(0);
-
-
-addHistory(
-multiplier.toFixed(2),
-true
-);
-
-
+    addHistory(multiplier.toFixed(2), true);
 };
 
-function addHistory(value, good){
+function crash() {
+    clearInterval(timer);
+    running = false;
 
+    plane.classList.add("crash");
 
-history.unshift(value);
+    message.innerHTML = "💥 Краш " + multiplier.toFixed(2) + "x";
 
-
-if(history.length > 6){
-
-history.pop();
-
+    addHistory(multiplier.toFixed(2), false);
 }
 
+function addHistory(value, win) {
+    history.unshift({ value, win });
 
-historyBox.innerHTML="";
+    if (history.length > 6) history.pop();
 
+    historyBox.innerHTML = "";
 
-history.forEach(item=>{
-
-
-let div =
-document.createElement("div");
-
-
-div.className =
-"result " +
-(good ? "good":"bad");
-
-
-div.innerHTML =
-item+"x";
-
-
-historyBox.appendChild(div);
-
-
-});
-
-
+    history.forEach(item => {
+        let div = document.createElement("div");
+        div.className = "result " + (item.win ? "good" : "bad");
+        div.innerHTML = item.value + "x";
+        historyBox.appendChild(div);
+    });
 }
