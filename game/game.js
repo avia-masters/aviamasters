@@ -1,34 +1,37 @@
-const canvas = document.getElementById("game");
-const ctx = canvas.getContext("2d");
+const canvas=document.getElementById("game");
+const ctx=canvas.getContext("2d");
 
 
 function resize(){
-    canvas.width = innerWidth;
-    canvas.height = innerHeight;
+canvas.width=innerWidth;
+canvas.height=innerHeight;
 }
 
 resize();
+
 window.addEventListener("resize",resize);
 
 
-// ----------------
+
 // ДАННЫЕ
-// ----------------
 
-let balance = 1000;
+let balance=1000;
 
-let bet = 100;
+let bet=100;
 
-let running = false;
+let running=false;
 
-let multiplier = 1;
+let multiplier=1;
 
-let x = 100;
-let y = 500;
 
-let angle = -0.45;
+let plane={
+x:120,
+y:500,
+angle:-0.5
+};
 
-let path=[];
+
+let camera=0;
 
 let smoke=[];
 
@@ -36,79 +39,48 @@ let rockets=[];
 
 let islands=[];
 
-let points=[];
+let collected=[];
 
-let camera=0;
-
-let crashed=false;
+let crash=false;
 
 
 
-// ----------------
-// САМОЛЁТ
-// ----------------
-
-let planeImg = new Image();
-
+let planeImg=new Image();
 planeImg.src="plane.svg";
 
 
 
-
-// ----------------
-// UI
-// ----------------
-
-const balanceText =
+const balanceText=
 document.getElementById("balance");
 
-const multText =
+const multText=
 document.getElementById("mult");
 
-const statusText =
+const statusText=
 document.getElementById("status");
 
 
 
 
-// ----------------
-// ОСТРОВА
-// ----------------
+// СОЗДАЁМ ОСТРОВА
 
-for(let i=0;i<8;i++){
+for(let i=0;i<10;i++){
 
 islands.push({
 
-x:300+i*300,
+x:300+i*260,
 
-y:500-Math.random()*250,
+y:500-i*45,
 
-size:70+Math.random()*40
-
-});
-
-
-points.push({
-
-x:300+i*300,
-
-y:450-i*50,
-
-value:
-(1.2+i*0.8).toFixed(2)
+size:70
 
 });
-
 
 }
 
 
 
-
-
-// ----------------
-// СТАРТ
-// ----------------
+// КНОПКИ
 
 
 document.getElementById("start").onclick=()=>{
@@ -117,7 +89,7 @@ document.getElementById("start").onclick=()=>{
 if(running)return;
 
 
-bet =
+bet=
 Number(
 document.getElementById("bet").value
 );
@@ -131,48 +103,43 @@ balance-=bet;
 
 running=true;
 
-crashed=false;
-
+crash=false;
 
 multiplier=1;
-
-
-x=100;
-
-y=canvas.height-150;
 
 
 camera=0;
 
 
-path=[];
+plane.x=100;
+
+plane.y=canvas.height-150;
+
 
 smoke=[];
 
-
 rockets=[];
 
+collected=[];
 
 
-statusText.innerHTML =
+
+statusText.innerHTML=
 "✈️ Полёт";
 
 
 
-for(let i=0;i<5;i++){
-
+for(let i=0;i<7;i++){
 
 rockets.push({
 
-x:600+i*400,
+x:500+i*350,
 
-y:200+Math.random()*300,
+y:150+Math.random()*300,
 
 speed:3
 
-
 });
-
 
 }
 
@@ -183,23 +150,22 @@ speed:3
 
 
 
-// ЗАБРАТЬ
-
 document.getElementById("cash").onclick=()=>{
 
 
 if(!running)return;
 
 
-balance +=
+balance+=
 bet*multiplier;
 
 
 running=false;
 
 
-statusText.innerHTML =
+statusText.innerHTML=
 "💰 Забрали";
+
 
 };
 
@@ -209,22 +175,13 @@ statusText.innerHTML =
 
 
 
-// ----------------
-// ФОН
-// ----------------
+
+function drawBackground(){
 
 
-function background(){
-
-
-// небо
-
-let g =
+let g=
 ctx.createLinearGradient(
-0,
-0,
-0,
-canvas.height
+0,0,0,canvas.height
 );
 
 
@@ -236,17 +193,15 @@ g.addColorStop(
 
 g.addColorStop(
 1,
-"#0a5d8c"
+"#064b75"
 );
-
 
 
 ctx.fillStyle=g;
 
 
 ctx.fillRect(
-0,
-0,
+0,0,
 canvas.width,
 canvas.height
 );
@@ -255,7 +210,8 @@ canvas.height
 
 // море
 
-ctx.fillStyle="#003b63";
+ctx.fillStyle="#00365c";
+
 
 ctx.fillRect(
 0,
@@ -271,11 +227,11 @@ canvas.width,
 ctx.fillStyle="white";
 
 
-for(let i=0;i<60;i++){
+for(let i=0;i<50;i++){
 
 ctx.fillRect(
-(i*97)%canvas.width,
-(i*43)%250,
+(i*113)%canvas.width,
+(i*53)%250,
 2,
 2
 );
@@ -291,23 +247,17 @@ ctx.fillRect(
 
 
 
-// ----------------
-// ОСТРОВА
-// ----------------
-
-
 function drawIslands(){
 
 
-islands.forEach(i=>{
+islands.forEach((i,index)=>{
 
 
-let ix =
-i.x-camera;
+let ix=i.x-camera;
 
 
 
-ctx.fillStyle="#0cff78";
+ctx.fillStyle="#13ff7a";
 
 
 ctx.beginPath();
@@ -317,7 +267,7 @@ ctx.ellipse(
 ix,
 i.y,
 i.size,
-i.size/2,
+40,
 0,
 0,
 Math.PI*2
@@ -328,83 +278,19 @@ ctx.fill();
 
 
 
-// свет
-
-ctx.fillStyle=
-"rgba(255,255,150,.8)";
+// номер x
 
 
-ctx.beginPath();
-
-
-ctx.arc(
-ix,
-i.y-20,
-5,
-0,
-Math.PI*2
-);
-
-
-ctx.fill();
-
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// ----------------
-// МНОЖИТЕЛИ
-// ----------------
-
-
-function drawPoints(){
+ctx.fillStyle="#ffffff";
 
 
 ctx.font="20px Arial";
 
 
-points.forEach(p=>{
-
-
-let px =
-p.x-camera;
-
-
-ctx.fillStyle="#00ff88";
-
-
-ctx.beginPath();
-
-
-ctx.arc(
-px,
-p.y,
-22,
-0,
-Math.PI*2
-);
-
-
-ctx.fill();
-
-
-
-ctx.fillStyle="#001";
-
-
 ctx.fillText(
-p.value+"x",
-px-18,
-p.y+7
+(index+1)+".5x",
+ix-25,
+i.y-55
 );
 
 
@@ -417,91 +303,6 @@ p.y+7
 
 
 
-
-
-
-// ----------------
-// РАКЕТЫ
-// ----------------
-
-
-function drawRockets(){
-
-
-rockets.forEach(r=>{
-
-
-r.x-=r.speed;
-
-
-ctx.save();
-
-
-ctx.translate(
-r.x,
-r.y
-);
-
-
-ctx.rotate(-.5);
-
-
-
-ctx.fillStyle="#ff3344";
-
-
-ctx.beginPath();
-
-
-ctx.moveTo(25,0);
-
-ctx.lineTo(-15,-12);
-
-ctx.lineTo(-15,12);
-
-
-ctx.closePath();
-
-ctx.fill();
-
-
-
-ctx.fillStyle="#ffcc00";
-
-
-ctx.beginPath();
-
-
-ctx.arc(
--20,
-0,
-8,
-0,
-Math.PI*2
-);
-
-
-ctx.fill();
-
-
-ctx.restore();
-
-
-
-});
-
-
-}
-
-
-
-
-
-
-
-// ----------------
-// САМОЛЁТ
-// ----------------
 
 
 function drawPlane(){
@@ -511,12 +312,14 @@ ctx.save();
 
 
 ctx.translate(
-x,
-y
+plane.x,
+plane.y
 );
 
 
-ctx.rotate(angle);
+ctx.rotate(
+plane.angle
+);
 
 
 
@@ -538,11 +341,6 @@ ctx.restore();
 
 
 
-
-
-// ----------------
-// ДЫМ
-// ----------------
 
 
 function drawSmoke(){
@@ -572,7 +370,7 @@ ctx.fill();
 
 s.x-=2;
 
-s.size*=.96;
+s.size*=.95;
 
 
 });
@@ -586,16 +384,102 @@ s.size*=.96;
 
 
 
-// ----------------
-// LOOP
-// ----------------
+
+function drawRockets(){
+
+
+rockets.forEach(r=>{
+
+
+r.x-=r.speed;
+
+
+
+ctx.fillStyle="#ff304f";
+
+
+ctx.beginPath();
+
+
+ctx.arc(
+r.x,
+r.y,
+12,
+0,
+Math.PI*2
+);
+
+
+ctx.fill();
+
+
+
+ctx.fillStyle="#ffcc00";
+
+
+ctx.fillRect(
+r.x-25,
+r.y-5,
+20,
+10
+);
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+function checkIsland(){
+
+
+islands.forEach((i,index)=>{
+
+
+let d=
+Math.abs(
+plane.x-(i.x-camera)
+);
+
+
+
+if(d<40 &&
+!collected[index]){
+
+
+collected[index]=true;
+
+
+multiplier +=0.5;
+
+
+}
+
+
+});
+
+
+}
+
+
+
+
+
+
 
 
 function loop(){
 
 
 ctx.clearRect(
-  0,
+0,
 0,
 canvas.width,
 canvas.height
@@ -603,50 +487,57 @@ canvas.height
 
 
 
-background();
+drawBackground();
+
 
 
 if(running){
 
 
-camera+=2;
 
-
-x=180;
-
-y=
-canvas.height-180
--
-Math.pow(multiplier,1.4)*18;
+camera+=1.8;
 
 
 
-multiplier+=0.02;
+plane.x+=1.5;
+
+
+plane.y-=0.7;
 
 
 
-path.push({
-x:x,
-y:y
-});
+multiplier+=0.01;
 
 
 
 smoke.push({
 
-x:x-40,
+x:plane.x-40,
 
-y:y+10,
+y:plane.y+20,
 
 size:8
 
 });
 
 
-
-if(smoke.length>40)
+if(smoke.length>50)
 smoke.shift();
 
+
+
+checkIsland();
+
+
+
+if(multiplier>10){
+
+running=false;
+
+statusText.innerHTML=
+"💥 КРАШ";
+
+}
 
 
 }
@@ -654,8 +545,6 @@ smoke.shift();
 
 
 drawIslands();
-
-drawPoints();
 
 drawRockets();
 
@@ -665,20 +554,19 @@ drawPlane();
 
 
 
-balanceText.innerHTML =
+balanceText.innerHTML=
 balance.toFixed(0);
 
 
-
-multText.innerHTML =
+multText.innerHTML=
 multiplier.toFixed(2)+"x";
 
 
 
 requestAnimationFrame(loop);
 
-}
 
+}
 
 
 loop();
