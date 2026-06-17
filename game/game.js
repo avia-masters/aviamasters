@@ -236,23 +236,55 @@ return arr;
 
 function drawRockets(){
 
-ctx.fillStyle="#ff304f";
-
-
 rockets.forEach(r=>{
 
+ctx.save();
+
+ctx.translate(
+r.x,
+r.y
+);
+
+ctx.rotate(-0.7);
+
+
+// корпус ракеты
+
+ctx.fillStyle="#ff3344";
 
 ctx.beginPath();
 
+ctx.moveTo(20,0);
+ctx.lineTo(-15,-10);
+ctx.lineTo(-15,10);
+
+ctx.closePath();
+
+ctx.fill();
+
+
+// огонь
+
+ctx.fillStyle="#ffaa00";
+
+ctx.beginPath();
 
 ctx.arc(
-r.x,
-r.y,
-r.radius,
+-18,
+0,
+7,
 0,
 Math.PI*2
 );
 
+ctx.fill();
+
+
+ctx.restore();
+
+});
+
+}
 
 ctx.fill();
 
