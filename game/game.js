@@ -1,5 +1,8 @@
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
+let planeImg = new Image();
+
+planeImg.src="plane.svg";
 
 function resize(){
     canvas.width = window.innerWidth;
