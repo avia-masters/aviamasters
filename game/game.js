@@ -432,6 +432,9 @@ drawClouds();
 islands();
 
 drawRockets();
+    rockets.forEach(r=>{
+    r.y -= 0.4;
+});
 
 
 
