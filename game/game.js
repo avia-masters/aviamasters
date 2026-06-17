@@ -2,13 +2,11 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 
 function resize(){
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
-
 resize();
-
-window.addEventListener("resize",resize);
+window.addEventListener("resize", resize);
 
 
 // ДАННЫЕ
@@ -27,19 +25,19 @@ let planeAngle = 0;
 
 let cameraX = 0;
 
-let smoke=[];
-let explosion=[];
+let smoke = [];
+let explosion = [];
+let rockets = [];
 
-let crashed=false;
+let crashed = false;
 
-let path=[];
+let path = [];
 
 
 // САМОЛЁТ
 
 let planeImg = new Image();
-
-planeImg.src="plane.svg";
+planeImg.src = "plane.svg";
 
 
 // UI
@@ -51,45 +49,55 @@ const multText =
 document.getElementById("mult");
 
 
-
 // СТАРТ
 
 document.getElementById("start").onclick = ()=>{
 
-if(running) return;
+    if(running) return;
+
+    bet = Number(
+        document.getElementById("bet").value
+    );
+
+    if(bet > balance) return;
 
 
-bet =
-Number(
-document.getElementById("bet").value
-);
+    balance -= bet;
+
+    running = true;
+
+    crashed = false;
+
+    multiplier = 1;
+
+    x = 120;
+
+    y = canvas.height-150;
+
+    cameraX = 0;
+
+    path=[];
+
+    smoke=[];
+
+    explosion=[];
+
+    rockets=[];
 
 
-if(bet > balance)
-return;
+    for(let i=0;i<6;i++){
 
+        rockets.push({
 
-balance -= bet;
+            x:300+i*220,
 
+            y:canvas.height-150-i*80,
 
-running=true;
+            speed:2+Math.random()*2
 
-crashed=false;
+        });
 
-explosion=[];
-
-smoke=[];
-
-path=[];
-
-multiplier=1;
-
-
-x=120;
-
-y=canvas.height-150;
-
-cameraX=0;
+    }
 
 };
 
@@ -99,15 +107,14 @@ cameraX=0;
 
 document.getElementById("cash").onclick = ()=>{
 
-if(!running)
-return;
+    if(!running) return;
 
 
-balance +=
-bet * multiplier;
+    balance +=
+    bet * multiplier;
 
 
-running=false;
+    running=false;
 
 };
 
@@ -118,8 +125,6 @@ running=false;
 
 function drawWorld(){
 
-
-// небо
 
 let sky =
 ctx.createLinearGradient(
@@ -153,7 +158,6 @@ canvas.height
 );
 
 
-
 // вода
 
 ctx.fillStyle="#0865a8";
@@ -167,7 +171,6 @@ canvas.width,
 );
 
 
-
 // облака
 
 ctx.fillStyle=
@@ -179,13 +182,11 @@ ctx.font="60px Arial";
 
 for(let i=0;i<7;i++){
 
-
 ctx.fillText(
 "☁",
 (i*220-cameraX*0.3)%canvas.width,
 80+i*25
 );
-
 
 }
 
@@ -193,7 +194,6 @@ ctx.fillText(
 // острова
 
 for(let i=0;i<6;i++){
-
 
 let ix =
 150+i*260-cameraX;
@@ -222,10 +222,10 @@ Math.PI*2
 
 ctx.fill();
 
-
 }
 
 }
+
 
 
 
@@ -233,11 +233,10 @@ ctx.fill();
 
 function drawSmoke(){
 
-
 smoke.forEach(s=>{
 
 
-ctx.fillStyle=
+ctx.fillStyle =
 "rgba(255,255,255,.35)";
 
 
@@ -263,6 +262,83 @@ s.size*=0.97;
 
 });
 
+}
+
+
+
+// РАКЕТЫ
+
+function drawRockets(){
+
+rockets.forEach(r=>{
+
+
+ctx.save();
+
+
+ctx.translate(
+r.x,
+r.y
+);
+
+
+ctx.rotate(-0.8);
+
+
+
+ctx.fillStyle="#ff3344";
+
+
+ctx.beginPath();
+
+
+ctx.moveTo(20,0);
+
+ctx.lineTo(-15,-10);
+
+ctx.lineTo(-15,10);
+
+
+ctx.closePath();
+
+ctx.fill();
+
+
+
+ctx.fillStyle="#ffaa00";
+
+
+ctx.beginPath();
+
+
+ctx.arc(
+-20,
+0,
+8,
+0,
+Math.PI*2
+);
+
+
+ctx.fill();
+
+
+ctx.restore();
+
+
+
+r.y -= r.speed;
+
+
+
+if(r.y < -50){
+
+r.y = canvas.height+50;
+
+}
+
+
+});
 
 }
 
@@ -272,11 +348,10 @@ s.size*=0.97;
 
 function drawExplosion(){
 
-
 explosion.forEach(p=>{
 
 
-ctx.fillStyle=
+ctx.fillStyle =
 "rgba(255,120,0,.85)";
 
 
@@ -306,21 +381,19 @@ p.size*=0.96;
 
 });
 
-
 }
 
 
 
-// ЛИНИЯ
+// ТРАЕКТОРИЯ
 
 function drawPath(){
 
-
-if(path.length<2)
-return;
+if(path.length<2) return;
 
 
 ctx.beginPath();
+
 
 ctx.strokeStyle="#00ffe1";
 
@@ -349,7 +422,6 @@ ctx.stroke();
 
 
 
-
 // САМОЛЁТ
 
 function drawPlane(){
@@ -359,9 +431,7 @@ if(!planeImg.complete)
 return;
 
 
-
 ctx.save();
-
 
 
 ctx.translate(
@@ -375,9 +445,7 @@ if(crashed){
 
 ctx.rotate(1.5);
 
-
 }else{
-
 
 ctx.rotate(
 planeAngle
@@ -399,13 +467,11 @@ planeImg,
 
 ctx.restore();
 
-
 }
 
 
 
-
-// ИГРА
+// ИГРОВОЙ ЦИКЛ
 
 function loop(){
 
@@ -427,11 +493,11 @@ cameraX +=0.5;
 
 x +=3.5;
 
+
 y -=1.8;
 
 
 multiplier +=0.02;
-
 
 
 planeAngle=-0.35;
@@ -447,8 +513,6 @@ y:y
 });
 
 
-
-// дым
 
 smoke.push({
 
@@ -466,7 +530,7 @@ smoke.shift();
 
 
 
-// краш после 5x
+// краш
 
 if(multiplier > 5 && !crashed){
 
@@ -487,21 +551,18 @@ x:x,
 y:y,
 
 dx:(Math.random()-0.5)*10,
-
-dy:(Math.random()-0.5)*10,
+  dy:(Math.random()-0.5)*10,
 
 size:5+Math.random()*10
 
 });
 
-
 }
 
 }
 
 
 }
-
 
 
 
@@ -510,6 +571,8 @@ drawWorld();
 drawPath();
 
 drawSmoke();
+
+drawRockets();
 
 drawExplosion();
 
@@ -523,7 +586,6 @@ balance.toFixed(0);
 
 multText.innerText =
 multiplier.toFixed(2)+"x";
-
 
 
 requestAnimationFrame(loop);
