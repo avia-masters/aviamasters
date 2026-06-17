@@ -1,3 +1,4 @@
+let smoke=[];
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 let planeImg = new Image();
