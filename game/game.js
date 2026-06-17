@@ -121,14 +121,13 @@ ctx.fill();
 if(running){
 
 x += 3;
-
 y -= 2;
-    smoke.push({
+
+smoke.push({
 x:x-30,
 y:y+10,
 size:5+Math.random()*5
 });
-
 
 if(smoke.length>40)
 smoke.shift();
@@ -138,6 +137,37 @@ multiplier += 0.02;
 }
 
 
+// ДЫМ САМОЛЁТА
+
+smoke.forEach(s=>{
+
+ctx.fillStyle =
+"rgba(255,255,255,0.4)";
+
+
+ctx.beginPath();
+
+
+ctx.arc(
+s.x,
+s.y,
+s.size,
+0,
+Math.PI*2
+);
+
+
+ctx.fill();
+
+
+s.x -= 1;
+
+s.size *= 0.98;
+
+});
+
+
+// САМОЛЁТ
 
 if(planeImg.complete){
 
@@ -150,7 +180,6 @@ y-35,
 );
 
 }
-
 
 
 balanceText.innerText =
