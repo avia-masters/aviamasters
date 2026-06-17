@@ -10,13 +10,21 @@ let bet = 0;
 let running = false;
 let t = 0;
 let multiplier = 1;
+
+// 💥 теперь crash НЕ случайный каждый тик
 let crashPoint = 0;
 
-let path = []; // линия полёта
+// 🎯 фиксируем seed раунда
+let seed = Math.random();
+
+// 🚀 ракеты (опасности)
+let rockets = [];
+
+let path = [];
 
 document.getElementById("balance").innerText = balance;
 
-// --- START ---
+// ---------------- START ----------------
 document.getElementById("start").onclick = () => {
     if (running) return;
 
@@ -31,10 +39,15 @@ document.getElementById("start").onclick = () => {
     multiplier = 1;
     path = [];
 
-    crashPoint = 1 + Math.random() * 5;
+    seed = Math.random();
+
+    // 💥 crash заранее (ВАЖНО как в настоящих crash играх)
+    crashPoint = 1 + pseudoRandom(seed) * 5;
+
+    spawnRockets();
 };
 
-// --- CASHOUT ---
+// ---------------- CASH ----------------
 document.getElementById("cash").onclick = () => {
     if (!running) return;
 
@@ -44,13 +57,18 @@ document.getElementById("cash").onclick = () => {
     updateBalance();
 };
 
-// --- UI ---
+// ---------------- RNG (стабильный) ----------------
+function pseudoRandom(s) {
+    return (Math.sin(s * 9999) * 10000) % 1;
+}
+
+// ---------------- UI ----------------
 function updateBalance() {
     document.getElementById("balance").innerText = balance.toFixed(0);
     document.getElementById("mult").innerText = multiplier.toFixed(2) + "x";
 }
 
-// --- BACKGROUND ---
+// ---------------- BACKGROUND ----------------
 function drawBackground() {
     let g = ctx.createLinearGradient(0,0,0,canvas.height);
     g.addColorStop(0, "#4bb3ff");
@@ -61,22 +79,22 @@ function drawBackground() {
     ctx.fillRect(0,0,canvas.width,canvas.height);
 }
 
-// --- CLOUDS (2 слоя) ---
+// ---------------- CLOUDS ----------------
 let cloudOffset = 0;
 
 function drawClouds() {
-    cloudOffset += 0.2;
+    cloudOffset += 0.15;
 
+    ctx.font = "28px Arial";
     ctx.fillStyle = "rgba(255,255,255,0.15)";
-    ctx.font = "30px Arial";
 
     for (let i = 0; i < 10; i++) {
-        ctx.fillText("☁", (i * 150 + cloudOffset) % canvas.width, 80);
-        ctx.fillText("☁", (i * 200 - cloudOffset) % canvas.width, 140);
+        ctx.fillText("☁", (i * 180 + cloudOffset) % canvas.width, 80);
+        ctx.fillText("☁", (i * 220 - cloudOffset) % canvas.width, 140);
     }
 }
 
-// --- ISLANDS ---
+// ---------------- ISLANDS ----------------
 function drawIslands() {
     for (let i = 0; i < 5; i++) {
         let x = 200 + i * 250;
@@ -89,7 +107,30 @@ function drawIslands() {
     }
 }
 
-// --- LINE PATH (ВАЖНОЕ УЛУЧШЕНИЕ) ---
+// ---------------- ROCKETS ----------------
+function spawnRockets() {
+    rockets = [];
+
+    for (let i = 0; i < 3; i++) {
+        rockets.push({
+            x: 300 + i * 250,
+            y: canvas.height - 200,
+            hit: false
+        });
+    }
+}
+
+function drawRockets() {
+    ctx.fillStyle = "#ff3355";
+
+    rockets.forEach(r => {
+        ctx.beginPath();
+        ctx.arc(r.x, r.y, 10, 0, Math.PI * 2);
+        ctx.fill();
+    });
+}
+
+// ---------------- PATH ----------------
 function drawPath() {
     if (path.length < 2) return;
 
@@ -109,7 +150,7 @@ function drawPath() {
     ctx.shadowBlur = 0;
 }
 
-// --- PLANE ---
+// ---------------- PLANE ----------------
 function drawPlane(x, y) {
     ctx.fillStyle = "white";
     ctx.beginPath();
@@ -117,39 +158,37 @@ function drawPlane(x, y) {
     ctx.fill();
 }
 
-// --- LOOP ---
+// ---------------- LOOP ----------------
 function loop() {
     ctx.clearRect(0,0,canvas.width,canvas.height);
 
     drawBackground();
     drawClouds();
     drawIslands();
+    drawRockets();
 
     if (running) {
 
         t += 0.012;
 
-        // 💥 КРИВАЯ (как в crash играх)
-        multiplier += 0.015 + t * 0.01;
+        // 📈 экспоненциальный рост (как в crash играх)
+        multiplier += 0.015 + t * 0.012;
 
         let x = 120 + t * 650;
         let y = canvas.height - 120 - Math.pow(t, 1.7) * 420;
 
-        // сохраняем путь
         path.push({ x, y });
-
         drawPath();
         drawPlane(x, y);
 
-        document.getElementById("mult").innerText =
-            multiplier.toFixed(2) + "x";
+        updateBalance();
 
-        // crash
+        // 💥 crash
         if (multiplier >= crashPoint) {
             running = false;
         }
     } else {
-        drawPath(); // чтобы линия оставалась
+        drawPath();
     }
 
     requestAnimationFrame(loop);
