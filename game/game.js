@@ -58,7 +58,7 @@ document.getElementById("start").onclick = () => {
 
 
     crashPoint = 
-        1.5 + Math.random()*6;
+    2 + Math.random()*12;
 
 
     updateUI();
