@@ -570,20 +570,24 @@ background();
 
 if(running){
 
-
-
 camera+=2;
 
+plane.x += 2.2;
 
-plane.x+=2;
-
-
-plane.y-=0.8;
-
-
+plane.y =
+canvas.height
+-180
+-Math.pow(multiplier,1.35)*18;
 
 multiplier+=0.01;
+path.push({
+x:plane.x,
+y:plane.y
+});
 
+if(path.length>500){
+path.shift();
+}
 
 
 smoke.push({
