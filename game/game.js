@@ -808,10 +808,11 @@ multiplier.toFixed(2)
 
 
 
+drawCarrier();
+
 drawIslands();
 
 drawPoints();
-
 drawPath();
 
 drawSmoke();
