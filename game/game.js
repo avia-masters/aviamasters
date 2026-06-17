@@ -4,194 +4,477 @@ const ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+
 let balance = 1000;
 let bet = 0;
 
 let running = false;
+
 let t = 0;
 let multiplier = 1;
-
-// 💥 теперь crash НЕ случайный каждый тик
 let crashPoint = 0;
 
-// 🎯 фиксируем seed раунда
-let seed = Math.random();
-
-// 🚀 ракеты (опасности)
+let path = [];
 let rockets = [];
 
-let path = [];
+let planeImg = new Image();
+planeImg.src = "plane.svg";
+
+let plane = {
+    x: 120,
+    y: 0,
+    angle: 0
+};
+
 
 document.getElementById("balance").innerText = balance;
 
-// ---------------- START ----------------
-document.getElementById("start").onclick = () => {
-    if (running) return;
 
-    bet = Number(document.getElementById("bet").value);
-    if (bet <= 0 || bet > balance) return;
+// START
+document.getElementById("start").onclick = () => {
+
+    if(running) return;
+
+
+    bet = Number(
+        document.getElementById("bet").value
+    );
+
+
+    if(bet <= 0 || bet > balance)
+        return;
+
 
     balance -= bet;
-    updateBalance();
 
     running = true;
+
     t = 0;
     multiplier = 1;
+
     path = [];
 
-    seed = Math.random();
+    rockets = createRockets();
 
-    // 💥 crash заранее (ВАЖНО как в настоящих crash играх)
-    crashPoint = 1 + pseudoRandom(seed) * 5;
 
-    spawnRockets();
+    crashPoint = 
+        1.5 + Math.random()*6;
+
+
+    updateUI();
 };
 
-// ---------------- CASH ----------------
+
+// CASH
 document.getElementById("cash").onclick = () => {
-    if (!running) return;
+
+
+    if(!running)
+        return;
+
 
     balance += bet * multiplier;
+
+
     running = false;
 
-    updateBalance();
+
+    updateUI();
+
 };
 
-// ---------------- RNG (стабильный) ----------------
-function pseudoRandom(s) {
-    return (Math.sin(s * 9999) * 10000) % 1;
+
+
+// UI
+function updateUI(){
+
+document.getElementById("balance")
+.innerText =
+balance.toFixed(0);
+
+
+document.getElementById("mult")
+.innerText =
+multiplier.toFixed(2)+"x";
+
 }
 
-// ---------------- UI ----------------
-function updateBalance() {
-    document.getElementById("balance").innerText = balance.toFixed(0);
-    document.getElementById("mult").innerText = multiplier.toFixed(2) + "x";
+
+
+// BACKGROUND
+
+function background(){
+
+let g =
+ctx.createLinearGradient(
+0,0,0,canvas.height
+);
+
+
+g.addColorStop(
+0,
+"#45b8ff"
+);
+
+
+g.addColorStop(
+1,
+"#061126"
+);
+
+
+ctx.fillStyle=g;
+
+ctx.fillRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
 }
 
-// ---------------- BACKGROUND ----------------
-function drawBackground() {
-    let g = ctx.createLinearGradient(0,0,0,canvas.height);
-    g.addColorStop(0, "#4bb3ff");
-    g.addColorStop(0.5, "#1b3f8b");
-    g.addColorStop(1, "#050b1e");
 
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+// CLOUDS
+
+let clouds = 0;
+
+
+function drawClouds(){
+
+clouds +=0.15;
+
+
+ctx.font="45px Arial";
+
+ctx.fillStyle=
+"rgba(255,255,255,.25)";
+
+
+for(let i=0;i<8;i++){
+
+ctx.fillText(
+"☁",
+(i*250+clouds)%canvas.width,
+80
+);
+
 }
 
-// ---------------- CLOUDS ----------------
-let cloudOffset = 0;
 
-function drawClouds() {
-    cloudOffset += 0.15;
-
-    ctx.font = "28px Arial";
-    ctx.fillStyle = "rgba(255,255,255,0.15)";
-
-    for (let i = 0; i < 10; i++) {
-        ctx.fillText("☁", (i * 180 + cloudOffset) % canvas.width, 80);
-        ctx.fillText("☁", (i * 220 - cloudOffset) % canvas.width, 140);
-    }
 }
 
-// ---------------- ISLANDS ----------------
-function drawIslands() {
-    for (let i = 0; i < 5; i++) {
-        let x = 200 + i * 250;
-        let y = canvas.height - 70;
 
-        ctx.fillStyle = "#1aff88";
-        ctx.beginPath();
-        ctx.arc(x, y, 60, 0, Math.PI * 2);
-        ctx.fill();
-    }
+
+// ISLANDS
+
+function islands(){
+
+for(
+let i=0;i<6;i++
+){
+
+let x =
+100+i*260;
+
+
+ctx.fillStyle=
+"#12e878";
+
+
+ctx.beginPath();
+
+ctx.ellipse(
+x,
+canvas.height-60,
+90,
+40,
+0,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
 }
 
-// ---------------- ROCKETS ----------------
-function spawnRockets() {
-    rockets = [];
-
-    for (let i = 0; i < 3; i++) {
-        rockets.push({
-            x: 300 + i * 250,
-            y: canvas.height - 200,
-            hit: false
-        });
-    }
 }
 
-function drawRockets() {
-    ctx.fillStyle = "#ff3355";
 
-    rockets.forEach(r => {
-        ctx.beginPath();
-        ctx.arc(r.x, r.y, 10, 0, Math.PI * 2);
-        ctx.fill();
-    });
+
+// ROCKETS
+
+function createRockets(){
+
+let arr=[];
+
+
+for(let i=0;i<4;i++){
+
+arr.push({
+
+x:
+400+i*180,
+
+y:
+canvas.height-220,
+
+radius:18,
+
+hit:false
+
+});
+
 }
 
-// ---------------- PATH ----------------
-function drawPath() {
-    if (path.length < 2) return;
+return arr;
 
-    ctx.beginPath();
-    ctx.strokeStyle = "#00ffe1";
-    ctx.lineWidth = 2;
-    ctx.shadowColor = "#00ffe1";
-    ctx.shadowBlur = 10;
-
-    ctx.moveTo(path[0].x, path[0].y);
-
-    for (let i = 1; i < path.length; i++) {
-        ctx.lineTo(path[i].x, path[i].y);
-    }
-
-    ctx.stroke();
-    ctx.shadowBlur = 0;
 }
 
-// ---------------- PLANE ----------------
-function drawPlane(x, y) {
-    ctx.fillStyle = "white";
-    ctx.beginPath();
-    ctx.arc(x, y, 8, 0, Math.PI * 2);
-    ctx.fill();
+
+
+function drawRockets(){
+
+ctx.fillStyle="#ff304f";
+
+
+rockets.forEach(r=>{
+
+
+ctx.beginPath();
+
+
+ctx.arc(
+r.x,
+r.y,
+r.radius,
+0,
+Math.PI*2
+);
+
+
+ctx.fill();
+
+
+});
+
 }
 
-// ---------------- LOOP ----------------
-function loop() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    drawBackground();
-    drawClouds();
-    drawIslands();
-    drawRockets();
 
-    if (running) {
+// PATH
 
-        t += 0.012;
+function drawPath(){
 
-        // 📈 экспоненциальный рост (как в crash играх)
-        multiplier += 0.015 + t * 0.012;
+if(path.length<2)
+return;
 
-        let x = 120 + t * 650;
-        let y = canvas.height - 120 - Math.pow(t, 1.7) * 420;
 
-        path.push({ x, y });
-        drawPath();
-        drawPlane(x, y);
+ctx.beginPath();
 
-        updateBalance();
+ctx.strokeStyle="#00ffe1";
 
-        // 💥 crash
-        if (multiplier >= crashPoint) {
-            running = false;
-        }
-    } else {
-        drawPath();
-    }
+ctx.lineWidth=4;
 
-    requestAnimationFrame(loop);
+ctx.shadowColor="#00ffe1";
+
+ctx.shadowBlur=15;
+
+
+ctx.moveTo(
+path[0].x,
+path[0].y
+);
+
+
+path.forEach(p=>{
+
+ctx.lineTo(
+p.x,
+p.y
+);
+
+});
+
+
+ctx.stroke();
+
+ctx.shadowBlur=0;
+
 }
+
+
+
+// PLANE
+
+function drawPlane(){
+
+
+ctx.save();
+
+
+ctx.translate(
+plane.x,
+plane.y
+);
+
+
+ctx.rotate(
+plane.angle
+);
+
+
+
+ctx.drawImage(
+planeImg,
+-35,
+-35,
+70,
+70
+);
+
+
+ctx.restore();
+
+
+}
+
+
+
+// COLLISION
+
+function checkRocket(){
+
+
+rockets.forEach(r=>{
+
+
+let dx =
+plane.x-r.x;
+
+
+let dy =
+plane.y-r.y;
+
+
+let dist =
+Math.sqrt(
+dx*dx+dy*dy
+);
+
+
+
+if(dist < 35){
+
+running=false;
+
+
+}
+
+});
+
+
+}
+
+
+
+// LOOP
+
+function loop(){
+
+
+ctx.clearRect(
+0,
+0,
+canvas.width,
+canvas.height
+);
+
+
+
+background();
+
+drawClouds();
+
+islands();
+
+drawRockets();
+
+
+
+if(running){
+
+
+t +=0.012;
+
+
+multiplier +=
+0.015+t*0.015;
+
+
+
+plane.x =
+120+t*650;
+
+
+
+plane.y =
+canvas.height
+-120
+-Math.pow(t,1.7)*420;
+
+
+
+// наклон самолёта
+
+plane.angle =
+-0.25;
+
+
+
+path.push({
+
+x:plane.x,
+y:plane.y
+
+});
+
+
+
+drawPath();
+
+drawPlane();
+
+
+checkRocket();
+
+
+
+if(multiplier>=crashPoint){
+
+running=false;
+
+}
+
+
+
+updateUI();
+
+
+}
+else{
+
+drawPath();
+
+}
+
+
+
+requestAnimationFrame(loop);
+
+
+}
+
 
 loop();
