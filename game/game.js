@@ -343,7 +343,21 @@ ctx.fillRect(
 
 
 }
+function drawCarrier(){
 
+if(!carrierImg.complete)
+return;
+
+
+ctx.drawImage(
+carrierImg,
+20,
+canvas.height-260,
+300,
+120
+);
+
+}
 
 
 
