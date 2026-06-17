@@ -461,7 +461,40 @@ s.size*=.94;
 });
 
 }
+function drawPath(){
 
+if(path.length < 2)
+return;
+
+ctx.beginPath();
+
+ctx.strokeStyle = "#00ffe1";
+
+ctx.lineWidth = 4;
+
+ctx.shadowColor = "#00ffe1";
+
+ctx.shadowBlur = 15;
+
+ctx.moveTo(
+path[0].x,
+path[0].y
+);
+
+path.forEach(p=>{
+
+ctx.lineTo(
+p.x,
+p.y
+);
+
+});
+
+ctx.stroke();
+
+ctx.shadowBlur = 0;
+
+}
 
 
 
