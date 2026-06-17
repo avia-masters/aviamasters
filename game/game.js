@@ -1,69 +1,80 @@
-const canvas=document.getElementById("game");
-const ctx=canvas.getContext("2d");
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
 
 
 function resize(){
-canvas.width=innerWidth;
-canvas.height=innerHeight;
+
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
 }
 
 resize();
+
 window.addEventListener("resize",resize);
 
 
 
-let balance=1000;
-let bet=100;
+// ДАННЫЕ
+
+let balance = 1000;
+
+let bet = 100;
 
 let running=false;
+
 let waiting=false;
 
 let multiplier=1;
 
-let timer=0;
-
 let history=[];
 
-
-let plane={
-x:100,
-y:500,
-angle:-0.4
-};
-
-
 let camera=0;
-
-
-let smoke=[];
-let rockets=[];
-
-let islands=[];
 
 let crash=false;
 
 
+
+let plane={
+x:120,
+y:500,
+angle:-0.45
+};
+
+
+let smoke=[];
+
+let rockets=[];
+
+let islands=[];
+
+
+
 let planeImg=new Image();
+
 planeImg.src="plane.svg";
 
 
 
-const balanceText=
+
+// UI
+
+const balanceText =
 document.getElementById("balance");
 
-const multText=
+const multText =
 document.getElementById("mult");
 
-const statusText=
+const statusText =
 document.getElementById("status");
 
-const historyBox=
+const historyBox =
 document.getElementById("history");
 
 
 
 
-// острова
+// ОСТРОВА
 
 for(let i=0;i<12;i++){
 
@@ -83,6 +94,7 @@ size:70
 
 
 
+// СТАРТ
 
 document.getElementById("start").onclick=()=>{
 
@@ -91,14 +103,17 @@ if(running || waiting)
 return;
 
 
-bet=
+
+bet =
 Number(
 document.getElementById("bet").value
 );
 
 
+
 if(bet>balance)
 return;
+
 
 
 balance-=bet;
@@ -106,23 +121,19 @@ balance-=bet;
 
 waiting=true;
 
-timer=3;
 
-
-statusText.innerHTML=
-"⏳ Приготовиться";
-
+statusText.innerHTML =
+"⏳ Подготовка";
 
 
 setTimeout(()=>{
 
 
-waiting=false;
-
-startRound();
+startGame();
 
 
-},3000);
+},2000);
+
 
 
 };
@@ -132,21 +143,22 @@ startRound();
 
 
 
+function startGame(){
 
-function startRound(){
 
+waiting=false;
 
 running=true;
 
 crash=false;
-
 
 multiplier=1;
 
 camera=0;
 
 
-plane.x=100;
+
+plane.x=120;
 
 plane.y=canvas.height-150;
 
@@ -157,7 +169,7 @@ rockets=[];
 
 
 
-statusText.innerHTML=
+statusText.innerHTML =
 "✈️ Полёт";
 
 
@@ -167,7 +179,7 @@ for(let i=0;i<8;i++){
 
 rockets.push({
 
-x:600+i*350,
+x:700+i*350,
 
 y:150+Math.random()*300,
 
@@ -188,6 +200,7 @@ speed:3
 
 
 
+// ЗАБРАТЬ
 
 document.getElementById("cash").onclick=()=>{
 
@@ -197,12 +210,21 @@ return;
 
 
 
-win();
+balance +=
+bet*multiplier;
+
+
+addHistory(
+multiplier.toFixed(2)
+);
 
 
 
 running=false;
 
+
+statusText.innerHTML =
+"💰 Забрали";
 
 };
 
@@ -211,41 +233,13 @@ running=false;
 
 
 
-function win(){
-
-
-let result=
-multiplier.toFixed(2);
 
 
 
-balance +=
-bet*multiplier;
+function addHistory(value){
 
 
-
-addHistory(result);
-
-
-
-statusText.innerHTML=
-"💰 "+result+"x";
-
-
-
-}
-
-
-
-
-
-
-
-
-function addHistory(v){
-
-
-history.unshift(v);
+history.unshift(value);
 
 
 
@@ -259,22 +253,21 @@ historyBox.innerHTML="";
 
 
 
-history.forEach(x=>{
+history.forEach(v=>{
 
 
-let d=
+let div =
 document.createElement("div");
 
 
-d.className=
-"history-item";
+div.className="history-item";
 
 
-d.innerHTML=
-x+"x";
+div.innerHTML =
+v+"x";
 
 
-historyBox.appendChild(d);
+historyBox.appendChild(div);
 
 
 
@@ -290,11 +283,12 @@ historyBox.appendChild(d);
 
 
 
+// ФОН
 
-function background(){
+function drawBackground(){
 
 
-let g=
+let sky =
 ctx.createLinearGradient(
 0,
 0,
@@ -303,20 +297,27 @@ canvas.height
 );
 
 
-g.addColorStop(
+
+sky.addColorStop(
 0,
 "#020824"
 );
 
 
-g.addColorStop(
+sky.addColorStop(
+0.55,
+"#075b8c"
+);
+
+
+sky.addColorStop(
 1,
-"#064b75"
+"#001b36"
 );
 
 
 
-ctx.fillStyle=g;
+ctx.fillStyle=sky;
 
 
 ctx.fillRect(
@@ -329,7 +330,30 @@ canvas.height
 
 
 
-ctx.fillStyle="#00365c";
+// звёзды
+
+ctx.fillStyle="rgba(255,255,255,.8)";
+
+
+for(let i=0;i<70;i++){
+
+
+ctx.fillRect(
+(i*97)%canvas.width,
+(i*43)%220,
+2,
+2
+);
+
+
+}
+
+
+
+
+// вода
+
+ctx.fillStyle="#004d7a";
 
 
 ctx.fillRect(
@@ -342,21 +366,32 @@ canvas.width,
 
 
 
-ctx.fillStyle="white";
+// волны
 
 
-for(let i=0;i<60;i++){
+ctx.strokeStyle=
+"rgba(255,255,255,.2)";
 
 
-ctx.fillRect(
-(i*111)%canvas.width,
-(i*47)%250,
-2,
-2
+for(let i=0;i<6;i++){
+
+
+ctx.beginPath();
+
+
+ctx.moveTo(
+0,
+canvas.height-150+i*25
 );
 
 
-}
+ctx.lineTo(
+canvas.width,
+canvas.height-150+i*25
+);
+
+
+ctx.stroke();
 
 
 }
@@ -365,6 +400,60 @@ ctx.fillRect(
 
 
 
+// луна
+
+let glow =
+ctx.createRadialGradient(
+canvas.width-120,
+100,
+10,
+canvas.width-120,
+100,
+100
+);
+
+
+glow.addColorStop(
+0,
+"#fff"
+);
+
+
+glow.addColorStop(
+1,
+"transparent"
+);
+
+
+
+ctx.fillStyle=glow;
+
+
+
+ctx.beginPath();
+
+ctx.arc(
+canvas.width-120,
+100,
+100,
+0,
+Math.PI*2
+);
+
+
+ctx.fill();
+
+
+
+}
+
+
+
+
+
+
+
+// ОСТРОВА
 
 function drawIslands(){
 
@@ -372,7 +461,9 @@ function drawIslands(){
 islands.forEach((i,index)=>{
 
 
-let ix=i.x-camera;
+let ix =
+i.x-camera;
+
 
 
 ctx.fillStyle="#10ff78";
@@ -396,6 +487,51 @@ ctx.fill();
 
 
 
+// пальма
+
+ctx.strokeStyle="#542";
+
+ctx.lineWidth=5;
+
+
+ctx.beginPath();
+
+ctx.moveTo(
+ix,
+i.y-20
+);
+
+ctx.lineTo(
+ix,
+i.y-80
+);
+
+
+ctx.stroke();
+
+
+
+ctx.fillStyle="#00aa55";
+
+
+ctx.beginPath();
+
+
+ctx.arc(
+ix,
+i.y-90,
+35,
+0,
+Math.PI*2
+);
+
+
+ctx.fill();
+
+
+
+// x
+
 ctx.fillStyle="white";
 
 ctx.font="18px Arial";
@@ -404,7 +540,7 @@ ctx.font="18px Arial";
 ctx.fillText(
 (index+1)+".5x",
 ix-25,
-i.y-55
+i.y-120
 );
 
 
@@ -420,10 +556,20 @@ i.y-55
 
 
 
+
+// САМОЛЁТ
+
+
 function drawPlane(){
 
 
 ctx.save();
+
+
+ctx.shadowColor="#00ffff";
+
+ctx.shadowBlur=25;
+
 
 
 ctx.translate(
@@ -437,6 +583,7 @@ plane.angle
 );
 
 
+
 ctx.drawImage(
 planeImg,
 -40,
@@ -444,6 +591,7 @@ planeImg,
 80,
 80
 );
+
 
 
 ctx.restore();
@@ -456,6 +604,8 @@ ctx.restore();
 
 
 
+// ДЫМ
+
 
 function drawSmoke(){
 
@@ -464,7 +614,7 @@ smoke.forEach(s=>{
 
 
 ctx.fillStyle=
-"rgba(255,255,255,.35)";
+"rgba(255,255,255,.3)";
 
 
 ctx.beginPath();
@@ -473,7 +623,7 @@ ctx.beginPath();
 ctx.arc(
 s.x,
 s.y,
-s.size,
+  s.size,
 0,
 Math.PI*2
 );
@@ -482,9 +632,11 @@ Math.PI*2
 ctx.fill();
 
 
-s.x-=2;
 
-s.size*=.95;
+s.x-=3;
+
+s.size*=0.94;
+
 
 
 });
@@ -496,6 +648,8 @@ s.size*=.95;
 
 
 
+
+// РАКЕТЫ
 
 
 function drawRockets(){
@@ -533,6 +687,13 @@ ctx.fill();
 
 
 
+
+
+
+
+// ИГРА
+
+
 function loop(){
 
 
@@ -545,7 +706,7 @@ canvas.height
 
 
 
-background();
+drawBackground();
 
 
 
@@ -553,6 +714,7 @@ if(running){
 
 
 camera+=2;
+
 
 
 plane.x+=2;
@@ -563,6 +725,7 @@ plane.y-=0.8;
 
 
 multiplier+=0.015;
+
 
 
 
@@ -595,12 +758,15 @@ statusText.innerHTML=
 "💥 КРАШ";
 
 
+
 addHistory(
 multiplier.toFixed(2)
 );
 
 
+
 }
+
 
 
 }
@@ -618,12 +784,12 @@ drawPlane();
 
 
 
-balanceText.innerHTML=
+balanceText.innerHTML =
 balance.toFixed(0);
 
 
 
-multText.innerHTML=
+multText.innerHTML =
 multiplier.toFixed(2)+"x";
 
 
@@ -632,6 +798,7 @@ requestAnimationFrame(loop);
 
 
 }
+
 
 
 loop();
