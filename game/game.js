@@ -107,13 +107,81 @@ canvas.width,
 );
 
 
-// остров
+// ОСТРОВА
+
+for(let i=0;i<5;i++){
+
+let x = 150 + i*250;
+let y = canvas.height - 100;
+
+
+let island =
+ctx.createRadialGradient(
+x,
+y,
+10,
+x,
+y,
+100
+);
+
+
+island.addColorStop(
+0,
+"#7cff4f"
+);
+
+
+island.addColorStop(
+1,
+"#08752d"
+);
+
+
+ctx.fillStyle = island;
+
+
+ctx.beginPath();
+
+
+ctx.ellipse(
+x,
+y,
+100,
+45,
+0,
+0,
+Math.PI*2
+);
+
+
+ctx.fill();
+
+}
+
+
+// ОБЛАКА
+
+ctx.fillStyle =
+"rgba(255,255,255,0.35)";
+
+ctx.font="60px Arial";
+
+
+for(let i=0;i<6;i++){
+
+ctx.fillText(
+"☁",
+i*220,
+100
+);
+
+}
 
 
 // самолёт
 
 if(running){
-
 x += 3;
 y -= 2;
 
