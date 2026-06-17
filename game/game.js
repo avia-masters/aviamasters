@@ -426,8 +426,16 @@ drawClouds();
 islands();
 
 drawRockets();
-    rockets.forEach(r=>{
-    r.y -= 0.4;
+   rockets.forEach(r=>{
+
+r.y -= r.speed;
+
+if(r.y < -50){
+
+r.y = canvas.height+50;
+
+}
+
 });
 
 
