@@ -299,22 +299,61 @@ ctx.fillRect(
 
 function drawIslands(){
 
-
 islands.forEach((i,index)=>{
-
 
 let ix=i.x-camera;
 
 
-ctx.fillStyle="#13ff7a";
+// свечение
+
+let glow =
+ctx.createRadialGradient(
+ix,
+i.y,
+10,
+ix,
+i.y,
+120
+);
+
+glow.addColorStop(
+0,
+"#33ff99"
+);
+
+glow.addColorStop(
+1,
+"transparent"
+);
+
+
+ctx.fillStyle=glow;
+
+ctx.beginPath();
+
+ctx.arc(
+ix,
+i.y,
+120,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+
+
+// остров
+
+ctx.fillStyle="#19e879";
 
 ctx.beginPath();
 
 ctx.ellipse(
 ix,
 i.y,
-90,
-40,
+95,
+45,
 0,
 0,
 Math.PI*2
@@ -323,110 +362,84 @@ Math.PI*2
 ctx.fill();
 
 
-// свечение острова
+// песок
 
-ctx.shadowColor="#00ff88";
+ctx.fillStyle="#ffe08a";
 
-ctx.shadowBlur=25;
+ctx.beginPath();
+
+ctx.ellipse(
+ix,
+i.y+5,
+70,
+25,
+0,
+0,
+Math.PI*2
+);
 
 ctx.fill();
 
-ctx.shadowBlur=0;
 
 
-// пальма
+// ствол
 
-ctx.strokeStyle="#5d3b1f";
+ctx.strokeStyle="#5a3418";
 
-ctx.lineWidth=5;
+ctx.lineWidth=6;
 
 ctx.beginPath();
 
 ctx.moveTo(
 ix,
-i.y-10
+i.y-20
 );
 
 ctx.lineTo(
 ix,
-i.y-70
+i.y-90
 );
 
 ctx.stroke();
 
 
-// листья
 
-ctx.fillStyle="#00aa55";
+// крона
+
+ctx.fillStyle="#00b95c";
 
 ctx.beginPath();
 
 ctx.arc(
 ix,
-i.y-80,
-25,
+i.y-105,
+35,
 0,
 Math.PI*2
 );
 
 ctx.fill();
 
-// свечение острова
-
-ctx.shadowColor="#00ff88";
-
-ctx.shadowBlur=25;
-
-ctx.fill();
-
-ctx.shadowBlur=0;
 
 
-// пальма
+// x
 
-ctx.strokeStyle="#5d3b1f";
+ctx.fillStyle="white";
 
-ctx.lineWidth=5;
+ctx.font="bold 18px Arial";
 
-ctx.beginPath();
+ctx.textAlign="center";
 
-ctx.moveTo(
+ctx.fillText(
+points[index].value+"x",
 ix,
-i.y-10
+i.y-150
 );
-
-ctx.lineTo(
-ix,
-i.y-70
-);
-
-ctx.stroke();
-
-
-// листья
-
-ctx.fillStyle="#00aa55";
-
-ctx.beginPath();
-
-ctx.arc(
-ix,
-i.y-80,
-25,
-0,
-Math.PI*2
-);
-
-ctx.fill();
-
 
 
 });
 
 }
-
-
-
 
 function drawPoints(){
 
