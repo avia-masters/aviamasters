@@ -123,6 +123,15 @@ if(running){
 x += 3;
 
 y -= 2;
+    smoke.push({
+x:x-30,
+y:y+10,
+size:5+Math.random()*5
+});
+
+
+if(smoke.length>40)
+smoke.shift();
 
 multiplier += 0.02;
 
