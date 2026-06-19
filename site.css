@@ -75,3 +75,26 @@ a:hover {
   border-color: #7aa2ff;
   box-shadow: 0 6px 20px rgba(122, 162, 255, 0.25);
 }
+.back-home {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 20px;
+
+  background: linear-gradient(135deg, #2b3a67, #1b1f3a);
+  border: 1px solid rgba(122, 162, 255, 0.4);
+  border-radius: 14px;
+
+  color: #ffffff;
+  font-weight: 600;
+  text-decoration: none;
+
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  transition: all 0.25s ease;
+}
+
+.back-home:hover {
+  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(135deg, #3b4f8f, #2b3a67);
+  border-color: #7aa2ff;
+  box-shadow: 0 6px 20px rgba(122, 162, 255, 0.25);
+}
