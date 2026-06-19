@@ -1,0 +1,58 @@
+/* БАЗА САЙТА */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f1a;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* КОНТЕЙНЕР (чтобы контент был по центру) */
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* СЕКЦИИ */
+.section {
+  padding: 60px 20px;
+}
+
+/* ЗАГОЛОВКИ */
+h1, h2, h3 {
+  color: #ffffff;
+}
+
+/* ССЫЛКИ */
+a {
+  color: #7aa2ff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* КНОПКИ НАВИГАЦИИ (которые мы добавили) */
+.nav-seo {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 20px 0 30px;
+}
+
+.nav-seo a {
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.10);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.15);
+  transition: 0.2s;
+}
+
+.nav-seo a:hover {
+  background: rgba(255,255,255,0.25);
+  transform: translateY(-2px);
+}
