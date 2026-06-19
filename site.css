@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 /* БАЗА САЙТА */
 body {
   margin: 0;
@@ -7,7 +11,7 @@ body {
   line-height: 1.6;
 }
 
-/* КОНТЕЙНЕР (чтобы контент был по центру) */
+/* КОНТЕЙНЕР */
 .container {
   max-width: 1100px;
   margin: 0 auto;
@@ -24,7 +28,7 @@ h1, h2, h3 {
   color: #ffffff;
 }
 
-/* ССЫЛКИ */
+/* ССЫЛКИ (обычные) */
 a {
   color: #7aa2ff;
   text-decoration: none;
@@ -34,25 +38,40 @@ a:hover {
   text-decoration: underline;
 }
 
-/* КНОПКИ НАВИГАЦИИ (которые мы добавили) */
+/* =========================
+   НАВИГАЦИЯ (КНОПКИ)
+========================= */
+
 .nav-seo {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   flex-wrap: wrap;
   justify-content: center;
-  margin: 20px 0 30px;
+  margin: 25px 0 35px;
 }
 
+/* КНОПКИ */
 .nav-seo a {
-  padding: 10px 14px;
-  border-radius: 10px;
-  background: rgba(255,255,255,0.10);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.15);
-  transition: 0.2s;
+  padding: 12px 18px;
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #1b1f3a, #2b3a67);
+  border: 1px solid rgba(122, 162, 255, 0.35);
+
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+
+  text-decoration: none;
+
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.25);
 }
 
+/* hover эффект */
 .nav-seo a:hover {
-  background: rgba(255,255,255,0.25);
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.05);
+  background: linear-gradient(135deg, #2b3a67, #3b4f8f);
+  border-color: #7aa2ff;
+  box-shadow: 0 6px 20px rgba(122, 162, 255, 0.25);
 }
