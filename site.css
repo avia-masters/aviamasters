@@ -98,3 +98,12 @@ a:hover {
   border-color: #7aa2ff;
   box-shadow: 0 6px 20px rgba(122, 162, 255, 0.25);
 }
+.material-link{
+    color:white;
+    text-decoration:none;
+    display:block;
+}
+
+.material-link:hover h3{
+    color:#38bdf8;
+}
