@@ -112,28 +112,27 @@ a:hover {
     justify-content: center;
     align-items: center;
 
-    padding: 8px 16px;
-    margin: 5px;
-
-    min-height: auto;
+    padding: 12px 24px;
+    margin: 8px;
 
     text-decoration: none;
     color: #ffffff;
 
-    font-weight: 700;
-    font-size: 14px;
+    font-weight: 800;
+    font-size: 15px;
 
     background: linear-gradient(135deg, #050B1A, #0057FF);
 
     border: 1px solid #00E5FF;
-    border-radius: 10px;
+    border-radius: 12px;
 
     transition: 0.25s ease;
 
     width: auto;
+    box-shadow: 0 0 12px rgba(0,229,255,0.25);
 }
 
 .material-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 0 15px #00E5FF;
+    box-shadow: 0 0 22px rgba(0,229,255,0.7);
 }
