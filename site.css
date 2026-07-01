@@ -107,3 +107,22 @@ a:hover {
 .material-link:hover h3{
     color:#38bdf8;
 }
+.material-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 55px;
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 16px;
+    background: linear-gradient(135deg, #050B1A, #0057FF);
+    border: 1px solid #00E5FF;
+    border-radius: 14px;
+    transition: 0.25s ease;
+}
+
+.material-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0 20px #00E5FF;
+}
